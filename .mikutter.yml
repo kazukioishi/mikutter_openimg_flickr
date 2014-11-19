@@ -1,0 +1,9 @@
+---
+slug: :mikutter_openimg_flickr
+depends:
+  mikutter: 3.1.0
+  plugin: []
+version: '1.0'
+author: kazuki_kaihatu
+name: mikutter_openimg_flickr
+description: Add flickr support on openimg
