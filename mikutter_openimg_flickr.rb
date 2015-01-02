@@ -8,15 +8,21 @@ require 'rexml/document'
 Plugin.create(:mikutter_openimg_flickr) do
   on_boot do |service|
     #Flickr thumbnail
-    Plugin[:openimg].addsupport(/www\.flickr\.com\/photos\//, nil) { |url, cancel|
-      photo = url.match(/\/photos\/[\w\-_@]+\/(\w+)/)[1]
-      FlickrAPI(photo)
+    defimageopener("Flickr",/www\.flickr\.com\/photos\//) { |url|
+      begin
+        photo = url.match(/\/photos\/[\w\-_@]+\/(\w+)/)[1]
+        open(FlickrAPI(photo))
+      rescue => ex
+      end
     }
 
-    Plugin[:openimg].addsupport(/flic\.kr\//, nil) { |url, cancel|
-      enc = url.match(/\/p\/(\w+)/)[1]
-      photo = Base58.decode(enc)
-      FlickrAPI(photo)
+    defimageopener("Flickr short URL",/flic\.kr\//) { |url|
+      begin
+        enc = url.match(/\/p\/(\w+)/)[1]
+        photo = Base58.decode(enc)
+        open(FlickrAPI(photo))
+      rescue => ex
+      end
     }
   end
 
